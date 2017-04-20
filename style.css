@@ -1,0 +1,97 @@
+* { 
+  margin: 0;
+  padding: 0;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+} 
+
+html, body {
+  height: 100%;
+}  
+ul {
+  list-style: none;
+}
+.container {
+   display: -webkit-flex;
+   display: flex;
+   -webkit-flex-direction: row;
+   flex-direction: row;
+   align-items: stretch;
+   height: 100%;
+   padding: 15px;
+}
+
+#left {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  justify-content: space-between;
+  margin-right: 15px;
+  color: #777;
+}
+
+#left a {
+    color: #777;
+}
+
+#clear, #lang, #copy {
+  width: 50px;
+  border-style: solid;
+  border-width: 1px;
+  text-align: center;
+  padding: 5px 10px 5px 10px;
+}
+
+.controlRow {
+  display: flex;
+  flex-direction: row; 
+  width: 250px;
+  justify-content: space-between;
+}
+/*
+.controlRow a {
+  border-style: solid;
+  border-width: 1px;
+  padding-left: 2px;
+  padding-right: 2px;  
+}
+*/
+.rowTitle {
+  width: 100px;
+}
+/*
+.rowButtons {
+  width: 50px;
+}
+*/
+.rowVal {
+  width: 100px;
+  text-align: right;
+}
+#lang {
+  width: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#controls div {
+    margin-bottom: 5px;
+}
+
+#left span {
+  float: right;
+}
+#footer {
+  font-size: 14px;
+}
+#right {
+  width: 80%;
+}
+
+#right p {
+  margin-bottom: 10px;
+}
