@@ -5,6 +5,7 @@ window.onload = () => {
   var w_up = document.getElementById('wordUp');
   var w_down = document.getElementById('wordDown');
   var paragraphs = document.getElementById('paragraphTotal');
+  var paraCount = parseInt(paragraphs.innerHTML);
   var wordTotal = document.getElementById('wordTotal');
   var lang = document.getElementById('lang');
   var clear = document.getElementById('clear');
@@ -144,7 +145,7 @@ window.onload = () => {
         sentence.concat(wordMap);
         break;
       }
-      let length = randomIntRange(14,25);
+      let length = randomIntRange(5,14);
       for (let i = 0; i < length; i++) {
         sentence.push(wordMap.pop());  
       }
@@ -184,6 +185,7 @@ window.onload = () => {
         result.push(lang[sentence[i]]);
       }
     }
+    console.log(result.length);
     return result;
   }
   
@@ -197,50 +199,6 @@ window.onload = () => {
   
     return essay;
   }
-  
-  // var generateSentence = (lang) => {
-  //   // Generate a random length for sentence
-  
-  //   let length = randomIntRange(14,25);
-  //   let sentence = [];
-  //   for (let i = 0; i < length; i++) {
-  //     // Pick a random index
-  //     let j = randomIntRange(0,lang.length);
-  //     let word = lang[j];
-  //     // Capitalize if this is the first word
-  //     if (i == 0){ word = capitalizeString(word); }
-  //     sentence.push(word)
-  //   }
-  //   // Return joined array appended with a period
-  //   return sentence.join(' ').concat('.');
-  // }
-  
-  // var generateParagraph = () => {
-  //   // Generate a random length for paragraph
-  //   let length = randomIntRange(3,5);
-  //   let paragraph = [];
-  //   for (let i = 0; i < length; i++) {
-  //     if (lang.innerHTML == "E"){
-  //       var sentence = generateSentence(spiceEng);
-  //     } else {
-  //       var sentence = generateSentence(spiceInd);  
-  //     }
-      
-  //     paragraph.push(sentence);
-  //   }
-  //   return paragraph.join(' ').concat(String.fromCharCode(13));
-  // }
-  
-  // var generateEssay = (paragraphs) => {
-  //   // Generate randomized collection of paragraphs
-  //   let length = paragraphs;
-  //   let essay = [];
-  //   for (let i = 0; i < length; i++) {
-  //     let paragraph = generateParagraph();
-  //     essay.push(paragraph);
-  //   }
-  //   return essay;
-  // }
   
   var loadEssay = (essay) => {
     // Loads an essay array into the dom
@@ -259,44 +217,52 @@ window.onload = () => {
   }
   
   
-  var sentenceMap = generateSentences(generateWords(500));
-  var paras = generateParagraphs(5,sentenceMap);
-  loadEssay(mapEssay(paras, spiceInd));
   
   
   // Control Interface
-  //p_up.onclick = () => {
-  //  paragraphs.innerHTML++;
-  //  let paraCount = parseInt(paragraphs.innerHTML);
-  //  let sentenceMap = generateSentences(generateWords(500));
-  //  loadEssay(mapEssay(generateParagraphs(5,sentenceMap), spiceInd));
-  //}
+  p_up.onclick = () => {
+    paragraphs.innerHTML++;
+    paraCount = parseInt(paragraphs.innerHTML);
+    loadEssay(mapEssay(generateParagraphs(paraCount,sentenceMap), spiceInd));
+  }
   
-  // p_down.onclick = () => {
-  //   paragraphs.innerHTML--;
-  //   let paraCount = parseInt(paragraphs.innerHTML);
-  //   let sentenceMap = generateSentences(generateWords(500));  
-  //   loadEssay(mapEssay(generateParagraphs(paraCount,sentenceMap), spiceInd));
-  // }
+  p_down.onclick = () => {
+    paraCount = parseInt(paragraphs.innerHTML);
+    if (paraCount > 1) {
+      paragraphs.innerHTML--;
+      paraCount = parseInt(paragraphs.innerHTML);
+    }
+    loadEssay(mapEssay(generateParagraphs(paraCount,sentenceMap), spiceInd));
+  }
   
-  // w_up.onclick = () => {
-  //   wordTotal.innerHTML = parseInt(wordTotal.innerHTML) + 10;
-  // }
+  w_up.onclick = () => {
+    wordTotal.innerHTML = parseInt(wordTotal.innerHTML) + 10;
+    paraCount = parseInt(paragraphs.innerHTML);
+    let wordCount = parseInt(wordTotal.innerHTML);
+    loadEssay(mapEssay(generateParagraphs(paraCount,generateSentences(generateWords(wordCount))), spiceInd));
+  }
   
-  // w_down.onclick = () => {
-  //   wordTotal.innerHTML = parseInt(wordTotal.innerHTML) - 10;
-  // }
+  w_down.onclick = () => {
+    let wordCount = parseInt(wordTotal.innerHTML);
+    if (wordCount > 0) {
+      wordTotal.innerHTML = parseInt(wordTotal.innerHTML) - 10;
+      wordCount = parseInt(wordTotal.innerHTML);
+    }
+    paraCount = parseInt(paragraphs.innerHTML);
+    loadEssay(mapEssay(generateParagraphs(paraCount,generateSentences(generateWords(wordCount))), spiceInd));
+  }
   
-  // lang.onclick = () => {
-  //   lang.innerHTML == 'E' ? lang.innerHTML = 'IN' : lang.innerHTML = 'E';
-  //   loadEssay(generateEssay(paragraphs.innerHTML));  
-  // }
+  lang.onclick = () => {
+    lang.innerHTML == 'E' ? lang.innerHTML = 'IN' : lang.innerHTML = 'E';
+  }
   
-  // clear.onclick = () => {
-  //   while (data.firstChild) {
-  //     data.removeChild(data.firstChild);
-  //   }  
-  // }
-  
-  // loadEssay(generateEssay(paragraphs.innerHTML));
+  clear.onclick = () => {
+    while (data.firstChild) {
+      data.removeChild(data.firstChild);
+    }  
+  }
+  // Initial Render
+  var sentenceMap = generateSentences(generateWords(500));
+  var paras = generateParagraphs(5,generateSentences(generateWords(500)));
+  loadEssay(mapEssay(paras, spiceInd));
 }
